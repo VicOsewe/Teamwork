@@ -1,3 +1,11 @@
-import { testEnvironmentVariable } from '../settings';
+import Model from '../models/model';
 
-export const indexPage = (req, res) => res.status(200).json({ message: testEnvironmentVariable });
+const usersModel = new Model('users');
+export const userPage = async (req, res) => {
+  try {
+    const data = await usersModel.select('first_name,last_name');
+    res.status(200).json({ message: data.rows });
+  } catch (err) {
+    res.status(200).json({ message: err.stack });
+  }
+};
